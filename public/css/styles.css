@@ -1,3 +1,21 @@
 * {
   background-color: chartreuse;
 }
+
+header {
+  margin: 0 auto;
+  width: 50%;
+  text-align: center;
+}
+
+.color-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly
+}
+
+.color-boxes {
+  border: 2px solid magenta;
+  width: 15%;
+  height: 250px;
+}
