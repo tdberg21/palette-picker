@@ -7,8 +7,47 @@
   </head>
 
   <body>
-    <h1>My Static File</h1>
-    <button>Button</button>
+    <header>
+      <h1>Palette Picker</h1>
+    </header>
+    <section class="color-container">
+      <div class="color-boxes color-box1">
+        color number 1
+        <button class="lock-buttons lock-button1">Lock</button>
+      </div>
+      <div class="color-boxes color-box2">
+        color number 2
+        <button class="lock-buttons lock-button2">Lock</button>
+      </div>
+      <div class="color-boxes color-box3">
+        color number 3
+        <button class="lock-buttons lock-button3">Lock</button>
+      </div>
+      <div class="color-boxes color-box4">
+        color number 4
+        <button class="lock-buttons lock-button4">Lock</button>
+      </div>
+      <div class="color-boxes color-box5">
+        color number 5
+        <button class="lock-buttons lock-button5">Lock</button>
+      </div>
+    </section>
+    <section class="controls-container">
+      <button class="new-palette-button">Generate New Palette!</button>
+      <div class="lower-controls-container">
+        <select name="project-name" id="project-name-dropdown">
+          <option value="project1">Project 1</option>
+          <option value="project2">Project 2</option>
+        </select>
+        <input type="text" class="palette-name-input">
+        <button class="save-palette-button">Save Palette</button>
+      </div>
+    </section>
+    <section class="project-container">
+      <label for="size_1">Create New Project:</label>
+      <input type="text" name="new-project-name" id="create-project-input">
+      <button class="save-project-button">Save Project</button>
+    </section>
 
     <script src="./js/scripts.js"></script>
   </body>
