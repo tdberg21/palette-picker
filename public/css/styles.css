@@ -86,6 +86,11 @@ label {
   line-height: 1;
 }
 
+.saved-projects-section {
+  display: flex;
+  flex-wrap: wrap;
+}
+
 .project-article {
   width: 15%;
 }

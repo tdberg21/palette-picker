@@ -22,7 +22,6 @@ const randomPaletteGenerator = () => {
 const lockColor = (boxNumber) => {
   $(`.lock-button${boxNumber}`).toggleClass('locked');
   if ($(`.lock-button${boxNumber}`).text() === 'Lock') {
-    console.log('swith to unlock')
     $(`.lock-button${boxNumber}`).text('Unlock');
   } else {
     $(`.lock-button${boxNumber}`).text('Lock');
@@ -31,9 +30,27 @@ const lockColor = (boxNumber) => {
 
 const handleSavePalette = () => {
   let paletteName = $('.palette-name-input').val();
-  let project_name = $('#project-name-dropdown').val();
-  console.log(paletteName, colors);
-  console.log('project name:', project_name);
+  let projectName = $('#project-name-dropdown').val();
+  // make api call to save palette to database
+  appendMiniPalette(projectName, paletteName)
+}
+
+const appendMiniPalette = (projectName, paletteName) => {
+  $('.project-palette-append').append(`
+  <div class="saved-palette-container ${paletteName}">
+    <h6 class="palette-name-header">${paletteName}</h6>
+    <span class="palette-mini-color-container">
+      <div class="mini-color-boxes mini-color-box1"></div>
+      <div class="mini-color-boxes mini-color-box2"></div>
+      <div class="mini-color-boxes mini-color-box3"></div>
+      <div class="mini-color-boxes mini-color-box4"></div>
+      <div class="mini-color-boxes mini-color-box5"></div>
+    </span>
+  </div>
+  `)
+  colors.forEach((color, index) => {
+    $(`.mini-color-box${index + 1}`).css('background-color', color);
+  })
 }
 
 const handleSaveProject = () => {
@@ -41,13 +58,34 @@ const handleSaveProject = () => {
   // make fetch call to add to database
   console.log(newProjectName)
   addProjectToDropDown(newProjectName);
+  appendNewProject(newProjectName);
 }
 
 const addProjectToDropDown = (name) => {
   let dropdown = $('#project-name-dropdown');
-  console.log(dropdown)
   dropdown.append($('<option></option>').val(name).html(name))
 }
+
+const appendNewProject = (projectName) => {
+  $('.saved-projects-section').append(`
+    <article class="project-article ${projectName}">
+      <h5 class="project-name-header">${projectName}</h5>
+      <div class="project-palette-append">
+        <div class="saved-palette-container">
+          <h6 class="palette-name-header">Palette 1</h6>
+          <span class="palette-mini-color-container">
+            <div class="mini-color-boxes mini-color-box1"></div>
+            <div class="mini-color-boxes mini-color-box2"></div>
+            <div class="mini-color-boxes mini-color-box3"></div>
+            <div class="mini-color-boxes mini-color-box4"></div>
+            <div class="mini-color-boxes mini-color-box5"></div>
+          </span>
+        </div>
+      </div>
+    </article>
+    `)
+}
+
 
 randomPaletteGenerator();
 $('.lock-button1').click(() => lockColor(1));
