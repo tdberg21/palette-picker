@@ -12,7 +12,7 @@ header {
 }
 
 .color-boxes {
-  border: 2px solid magenta;
+  border: 2px solid #333;
   width: 15%;
   height: 250px;
 }
