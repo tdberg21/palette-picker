@@ -1,6 +1,7 @@
 * {
   background-color: #333;
   color: #fff;
+  font-family: 'Helvetica Neue', sans-serif;
 }
 
 header {
@@ -21,12 +22,16 @@ h1 {
   font-family: 'Helvetica Neue', sans-serif;
   letter-spacing: -1px; 
   line-height: 1;
-  /* color: #fff; */
 }
 
 button:hover {
   background-color: #C0C0C0;
   color: #333;
+  cursor: pointer;
+}
+
+input {
+  background-color: #C0C0C0;
 }
 
 .color-container {
@@ -36,9 +41,11 @@ button:hover {
 }
 
 .color-boxes {
-  border: 1px solid #fff;
   width: 18%;
   height: 300px;
+  display: flex;
+  justify-content: center;
+  /* align-items: center; */
 }
 
 .controls-container {
@@ -52,17 +59,53 @@ button:hover {
 }
 
 .projects-container {
+  width: 80%;
   display: flex;
   justify-content: center;
-  margin: 1em auto;
+  margin: 2em auto;
 }
 
 .color-codes {
   margin: 0 auto;
-  width: 75%;
-  /* color: #fff; */
 }
 
 .lock-buttons {
-  /* color: #fff; */
+  border: none;
+  height: 2em;
+}
+
+.lock-buttons:hover {
+  color: #fff;
+  text-decoration: underline;
+}
+
+label {
+  margin: 0 1rem;
+  font-family: 'Helvetica Neue', sans-serif;
+  letter-spacing: -0.5px; 
+  line-height: 1;
+}
+
+.project-article {
+  width: 15%;
+}
+
+.project-name-header {
+  margin: 0.5rem auto;
+}
+
+.palette-mini-color-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+
+.palette-name-header {
+  margin: 0.25rem auto;
+}
+
+.mini-color-boxes {
+  background-color: aqua;
+  width: 10px;
+  height: 10px;
 }

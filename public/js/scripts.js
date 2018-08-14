@@ -7,7 +7,7 @@ const randomPaletteGenerator = () => {
     if (!$(`.lock-button${i}`).hasClass('locked')) {
       colors.push('#' + Math.floor(Math.random()*16777215).toString(16))
     } else {
-      colors.push(colors[i]);
+      colors.push($(`.color-code${i}`).text());
     }
   }
 
@@ -21,6 +21,12 @@ const randomPaletteGenerator = () => {
 
 const lockColor = (boxNumber) => {
   $(`.lock-button${boxNumber}`).toggleClass('locked');
+  if ($(`.lock-button${boxNumber}`).text() === 'Lock') {
+    console.log('swith to unlock')
+    $(`.lock-button${boxNumber}`).text('Unlock');
+  } else {
+    $(`.lock-button${boxNumber}`).text('Lock');
+  }
 }
 
 const handleSavePalette = () => {
