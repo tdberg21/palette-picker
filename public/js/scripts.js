@@ -29,6 +29,19 @@ const handleSavePalette = () => {
   console.log('project name:', project_name);
 }
 
+const handleSaveProject = () => {
+  let newProjectName = $('#create-project-input').val();
+  // make fetch call to add to database
+  console.log(newProjectName)
+  addProjectToDropDown(newProjectName);
+}
+
+const addProjectToDropDown = (name) => {
+  let dropdown = $('#project-name-dropdown');
+  console.log(dropdown)
+  dropdown.append($('<option></option>').val(name).html(name))
+}
+
 randomPaletteGenerator();
 $('.lock-button1').click(() => lockColor(1));
 $('.lock-button2').click(() => lockColor(2));
@@ -37,3 +50,4 @@ $('.lock-button4').click(() => lockColor(4));
 $('.lock-button5').click(() => lockColor(5));
 $('.new-palette-button').click(randomPaletteGenerator);
 $('.save-palette-button').click(handleSavePalette);
+$('.save-project-button').click(handleSaveProject);
