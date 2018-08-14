@@ -1,8 +1,27 @@
+* {
+  background-color: #333;
+  color: #fff;
+}
 
 header {
   margin: 0 auto;
-  width: 50%;
+  width: 100%;
   text-align: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.new-palette-button {
+  height: 50%;
+  margin: auto;
+}
+
+h1 {
+  font-family: 'Helvetica Neue', sans-serif;
+  letter-spacing: -1px; 
+  line-height: 1;
+  /* color: #fff; */
 }
 
 .color-container {
@@ -12,27 +31,33 @@ header {
 }
 
 .color-boxes {
-  border: 2px solid #333;
-  width: 15%;
-  height: 250px;
+  border: 1px solid #fff;
+  width: 18%;
+  height: 300px;
 }
 
 .controls-container {
-  width: 70%;
   margin: 2em auto;
   display: flex;
   justify-content: center;
-  flex-direction: column;
 }
 
 .lower-controls-container {
+  margin: 1em;
+}
+
+.projects-container {
   display: flex;
   justify-content: center;
   margin: 1em auto;
 }
 
-.project-container {
-  display: flex;
-  justify-content: center;
-  margin: 1em auto;
+.color-codes {
+  margin: 0 auto;
+  width: 75%;
+  /* color: #fff; */
+}
+
+.lock-buttons {
+  /* color: #fff; */
 }

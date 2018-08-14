@@ -15,6 +15,7 @@ const randomPaletteGenerator = () => {
     $(`.color-box${index + 1}`).css('background-color', color);
     $(`.color-code${index + 1}`).text(color);
     $(`.lock-button${index + 1}`).css('background-color', color);
+    $(`.color-code${index + 1}`).css('background-color', color);
   })
 }
 
