@@ -86,6 +86,26 @@ app.post('/api/v1/projects/new', (request, response) => {
     });
 });
 
+app.post('/api/v1/palettes/new', (request, response) => {
+  console.log(request.body)
+  const palette = request.body;
+  for (let requiredParameter of ['palette_name', 'color1', 'color2', 'color3', 'color4', 'color5', 'project_id']) {
+    if (!palette[requiredParameter]) {
+      return response
+        .status(422)
+        .send({ error: `You're missing a "${requiredParameter}" property.` });
+    }
+  }
+
+  database('palettes').insert(palette, 'id')
+    .then(palette => {
+      response.status(201).json({ id: palette[0] })
+    })
+    .catch(error => {
+      response.status(500).json({ error });
+    });
+});
+
 app.listen(app.get('port'), () => {
   console.log(`${app.locals.title} is running on ${app.get('port')}.`);
 });
