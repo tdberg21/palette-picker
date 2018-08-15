@@ -5,7 +5,7 @@ const randomPaletteGenerator = () => {
 
   for(let i = 1; i <= 5; i++) {
     if (!$(`.lock-button${i}`).hasClass('locked')) {
-      colors.push('#' + Math.floor(Math.random()*16777215).toString(16))
+      colors.push('#' + Math.floor(Math.random()*16777215).toString(16));
     } else {
       colors.push($(`.color-code${i}`).text());
     }
@@ -26,14 +26,14 @@ const lockColor = (boxNumber) => {
   } else {
     $(`.lock-button${boxNumber}`).text('Lock');
   }
-}
+};
 
 const handleSavePalette = () => {
   let paletteName = $('.palette-name-input').val();
   let projectName = $('#project-name-dropdown').val();
   // make api call to save palette to database
-  appendMiniPalette(projectName, paletteName)
-}
+  appendMiniPalette(projectName, paletteName);
+};
 
 const appendMiniPalette = (projectName, paletteName) => {
   $(`.${projectName}`).append(`
@@ -47,8 +47,8 @@ const appendMiniPalette = (projectName, paletteName) => {
       <div class="mini-color-boxes mini-color-box5" style="background-color: ${colors[4]}"></div>
     </span>
   </div>
-  `)
-}
+  `);
+};
 
 const handleSaveProject = () => {
   let newProjectName = $('#create-project-input').val();
@@ -59,8 +59,8 @@ const handleSaveProject = () => {
 
 const addProjectToDropDown = (name) => {
   let dropdown = $('#project-name-dropdown');
-  dropdown.append($('<option></option>').val(name).html(name))
-}
+  dropdown.append($('<option></option>').val(name).html(name));
+};
 
 const appendNewProject = (projectName) => {
   $('.saved-projects-section').append(`
@@ -69,8 +69,8 @@ const appendNewProject = (projectName) => {
       <div class="project-palette-append">
       </div>
     </article>
-    `)
-}
+    `);
+};
 
 randomPaletteGenerator();
 $('.lock-button1').click(() => lockColor(1));
