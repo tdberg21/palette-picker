@@ -19,10 +19,10 @@ const randomPaletteGenerator = () => {
 
 const lockColor = (boxNumber) => {
   $(`.lock-button${boxNumber}`).toggleClass('locked');
-  if ($(`.lock-button${boxNumber}`).text() === 'Lock') {
-    $(`.lock-button${boxNumber}`).text('Unlock');
+  if ($(`.lock-button${boxNumber}`).text() === 'lock') {
+    $(`.lock-button${boxNumber}`).text('unlock');
   } else {
-    $(`.lock-button${boxNumber}`).text('Lock');
+    $(`.lock-button${boxNumber}`).text('lock');
   }
 };
 
@@ -78,6 +78,7 @@ const appendMiniPalette = (projectName, paletteName) => {
       <div class="mini-color-boxes mini-color-box3" style="background-color: ${colors[2]}"></div>
       <div class="mini-color-boxes mini-color-box4" style="background-color: ${colors[3]}"></div>
       <div class="mini-color-boxes mini-color-box5" style="background-color: ${colors[4]}"></div>
+      <button class="delete-palette-button">🚫</button>
     </span>
   </div>
   `);
@@ -87,7 +88,6 @@ const handleSaveProject = async () => {
   let newProjectName = $('#create-project-input').val();
   let duplicate = await findProject(newProjectName);
   if (duplicate) {
-    console.log(duplicate);
     return;
   } else {
     addProjectToDB(newProjectName);
