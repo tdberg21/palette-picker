@@ -69,15 +69,21 @@ app.get('/api/v1/palettes/:id', async (request, response) => {
 app.post('/api/v1/projects/new', (request, response) => {
   console.log(request.body)
   const project = request.body;
-  const id = Date.now();
-  if (!project.project_name) {
-    response.status(422).send({
-      error: 'no project name provided'
-    });
-  } else {
-    app.locals.projects.push({id, project_name: project.project_name});
-    response.status(201).json({id, project_name: project.project_name});
+  for (let requiredParameter of ['project_name']) {
+    if (!project[requiredParameter]) {
+      return response
+        .status(422)
+        .send({ error: `Expected format: { project_name: <String> }. You're missing a "${requiredParameter}" property.` });
+    }
   }
+
+  database('projects').insert(project, 'id')
+    .then(project => {
+      response.status(201).json({ id: project[0] })
+    })
+    .catch(error => {
+      response.status(500).json({ error });
+    });
 });
 
 app.listen(app.get('port'), () => {

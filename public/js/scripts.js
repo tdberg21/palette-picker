@@ -50,9 +50,24 @@ const appendMiniPalette = (projectName, paletteName) => {
 
 const handleSaveProject = () => {
   let newProjectName = $('#create-project-input').val();
-  // make fetch call to add to database
+  addProjectToDB(newProjectName);
   addProjectToDropDown(newProjectName);
   appendNewProject(newProjectName);
+}
+
+const addProjectToDB = async (projectName) => {
+  const url = 'http://localhost:3000/api/v1/projects/new';
+  const response = await fetch(url, {
+    method: 'POST',
+    body: JSON.stringify({
+      project_name: projectName
+    }),
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  });
+  const results = await response.json();
+  return await results; 
 }
 
 const addProjectToDropDown = (name) => {
