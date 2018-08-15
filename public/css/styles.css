@@ -118,3 +118,7 @@ label {
   width: 10px;
   height: 10px;
 }
+
+.delete-palette-button {
+  border: none;
+}

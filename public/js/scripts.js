@@ -78,7 +78,7 @@ const appendMiniPalette = (projectName, paletteName) => {
       <div class="mini-color-boxes mini-color-box3" style="background-color: ${colors[2]}"></div>
       <div class="mini-color-boxes mini-color-box4" style="background-color: ${colors[3]}"></div>
       <div class="mini-color-boxes mini-color-box5" style="background-color: ${colors[4]}"></div>
-      <button class="delete-palette-button">🚫</button>
+      <button class="delete-palette-button" id=${paletteName}>🚫</button>
     </span>
   </div>
   `);
@@ -165,13 +165,26 @@ const updateColorsArray = (palette) => {
   colors = [palette.color1, palette.color2, palette.color3, palette.color4, palette.color5];
 }
 
-// const fetchSavedPalettes = async () => {
-//   const url = 'http://localhost:3000/api/v1/palettes/';
-//   const response = await fetch(url);
-//   const results = await response.json();
-//   console.log(results);
-//   return await results;
-// }
+const fetchSavedPalettes = async () => {
+  const url = 'http://localhost:3000/api/v1/palettes/';
+  const response = await fetch(url);
+  const results = await response.json();
+  return await results;
+}
+
+const handleDelete = async (event) => {
+  let paletteName = $(event.target).attr('id');
+  let paletteInfo = await findPalette(paletteName);
+  console.log(paletteInfo);
+  // deleteFromDB()
+  event.target.closest('div').remove();
+}
+
+const findPalette = async (paletteName) => {
+  let results = await fetchSavedPalettes();
+  const foundPalette = results.find(palette => palette.palette_name === paletteName)
+  return foundPalette
+}
 
 handlePageLoad();
 randomPaletteGenerator();
@@ -183,3 +196,4 @@ $('.lock-button5').click(() => lockColor(5));
 $('.new-palette-button').click(randomPaletteGenerator);
 $('.save-palette-button').click(handleSavePalette);
 $('.save-project-button').click(handleSaveProject);
+$('.saved-projects-section').on('click', 'article .delete-palette-button', handleDelete);
