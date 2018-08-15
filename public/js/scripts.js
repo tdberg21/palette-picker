@@ -32,7 +32,12 @@ const handleSavePalette = async () => {
   let project = await findProject(projectName);
   addPaletteToDB(paletteName, project);
   appendMiniPalette(projectName, paletteName);
+  clearPaletteInputField();
 };
+
+const clearPaletteInputField = () => {
+  $('.palette-name-input').val('');
+}
 
 const findProject = async (projectName) => {
   let results = await fetchSavedProjects();
