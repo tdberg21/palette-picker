@@ -2,7 +2,6 @@ let colors = [];
 
 const randomPaletteGenerator = () => {
   colors = [];
-
   for(let i = 1; i <= 5; i++) {
     if (!$(`.lock-button${i}`).hasClass('locked')) {
       colors.push('#' + Math.floor(Math.random()*16777215).toString(16));
@@ -10,7 +9,6 @@ const randomPaletteGenerator = () => {
       colors.push($(`.color-code${i}`).text());
     }
   }
-
   colors.forEach((color, index) => {
     $(`.color-box${index + 1}`).css('background-color', color);
     $(`.color-code${index + 1}`).text(color);
@@ -72,6 +70,46 @@ const appendNewProject = (projectName) => {
     `);
 };
 
+const fetchSavedProjects = async () => {
+  const url = 'http://localhost:3000/api/v1/projects/';
+  const response = await fetch(url);
+  const results = await response.json();
+  results.forEach(project => {
+    addProjectToDropDown(project.project_name)
+    appendNewProject(project.project_name)
+    fetchProjectPalettes(project.id, project.project_name)
+  })
+  return await results;
+}
+
+const fetchProjectPalettes = async (projectID, projectName) => {
+  const url = `http://localhost:3000/api/v1/palettes/${projectID}`;
+  const response = await fetch(url);
+  const results = await response.json();
+  appendProjectPalettes(results, projectName)
+  return await results;
+}
+
+const appendProjectPalettes = (palettes, projectName) => {
+  palettes.forEach(palette => {
+    updateColorsArray(palette)
+    appendMiniPalette(projectName, palette.palette_name)
+  })
+}
+
+const updateColorsArray = (palette) => {
+  colors = [palette.color1, palette.color2, palette.color3, palette.color4, palette.color5];
+}
+
+const fetchSavedPalettes = async () => {
+  const url = 'http://localhost:3000/api/v1/palettes/';
+  const response = await fetch(url);
+  const results = await response.json();
+  console.log(results);
+  return await results;
+}
+
+fetchSavedProjects();
 randomPaletteGenerator();
 $('.lock-button1').click(() => lockColor(1));
 $('.lock-button2').click(() => lockColor(2));

@@ -46,13 +46,24 @@ app.get('/api/v1/projects/:id', (request, response) => {
         response.status(200).json(projects);
       } else {
         response.status(404).json({
-          error: `Could not find paper with id ${request.params.id}`
+          error: `Could not find project with id ${request.params.id}`
         });
       }
     })
     .catch(error => {
       response.status(500).json({ error });
     });
+});
+
+app.get('/api/v1/palettes/:id', async (request, response) => {
+  const id = parseInt(request.params.id)
+  try {
+    const palettes = await database('palettes').select()
+    const projectPalettes = palettes.filter(palette => palette.project_id === id)
+    response.status(200).json(projectPalettes)
+  } catch (error) {
+    response.status(500).json(error)
+  }
 });
 
 app.post('/api/v1/projects/new', (request, response) => {
