@@ -26,12 +26,42 @@ const lockColor = (boxNumber) => {
   }
 };
 
-const handleSavePalette = () => {
+const handleSavePalette = async () => {
   let paletteName = $('.palette-name-input').val();
   let projectName = $('#project-name-dropdown').val();
-  // make api call to save palette to database
+  let project = await findProject(projectName);
+  addPaletteToDB(paletteName, project);
   appendMiniPalette(projectName, paletteName);
 };
+
+const findProject = async (projectName) => {
+  let results = await fetchSavedProjects();
+  const foundProject = results.find(project => project.project_name === projectName)
+  return foundProject
+}
+
+const addPaletteToDB = async (paletteName, project) => {
+  const url = 'http://localhost:3000/api/v1/palettes/new';
+  const response = await fetch(url, {
+    method: 'POST',
+    body: JSON.stringify({
+      palette_name: paletteName,
+      color1: colors[0],
+      color2: colors[1],
+      color3: colors[2],
+      color4: colors[3],
+      color5: colors[4],
+      project_id: project.id
+
+    }),
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  });
+  const results = await response.json();
+  console.log(results);
+  return await results; 
+}
 
 const appendMiniPalette = (projectName, paletteName) => {
   $(`.${projectName}`).append(`
@@ -89,12 +119,16 @@ const fetchSavedProjects = async () => {
   const url = 'http://localhost:3000/api/v1/projects/';
   const response = await fetch(url);
   const results = await response.json();
+  return results;
+}
+
+const handlePageLoad = async () => {
+  let results = await fetchSavedProjects();
   results.forEach(project => {
     addProjectToDropDown(project.project_name)
     appendNewProject(project.project_name)
     fetchProjectPalettes(project.id, project.project_name)
   })
-  return await results;
 }
 
 const fetchProjectPalettes = async (projectID, projectName) => {
@@ -116,15 +150,15 @@ const updateColorsArray = (palette) => {
   colors = [palette.color1, palette.color2, palette.color3, palette.color4, palette.color5];
 }
 
-const fetchSavedPalettes = async () => {
-  const url = 'http://localhost:3000/api/v1/palettes/';
-  const response = await fetch(url);
-  const results = await response.json();
-  console.log(results);
-  return await results;
-}
+// const fetchSavedPalettes = async () => {
+//   const url = 'http://localhost:3000/api/v1/palettes/';
+//   const response = await fetch(url);
+//   const results = await response.json();
+//   console.log(results);
+//   return await results;
+// }
 
-fetchSavedProjects();
+handlePageLoad();
 randomPaletteGenerator();
 $('.lock-button1').click(() => lockColor(1));
 $('.lock-button2').click(() => lockColor(2));
