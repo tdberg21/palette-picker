@@ -1,6 +1,9 @@
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
+const environment = process.env.NODE_ENV || 'development';
+const configuration = require('./knexfile')[environment];
+const database = require('knex')(configuration);
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -17,33 +20,70 @@ app.get('/', (request, response) => {
 });
 
 app.get('/api/v1/projects', (request, response) => {
-  const projects = app.locals.projects;
+  database('projects').select()
+    .then((projects) => {
+      response.status(200).json(projects);
+    })
+    .catch((error) => {
+      response.status(500).json({ error });
+    });
+});
 
-  response.json(projects);
+app.get('/api/v1/palettes', (request, response) => {
+  database('palettes').select()
+    .then((palettes) => {
+      response.status(200).json(palettes);
+    })
+    .catch((error) => {
+      response.status(500).json({ error });
+    });
 });
 
 app.get('/api/v1/projects/:id', (request, response) => {
-  const { id } = request.params;
-  const foundProject = app.locals.projects.find(project => project.id === id);
-  if (foundProject) {
-    return response.status(200).json(foundProject);
-  } else {
-    return response.sendStatus(404);
+  database('projects').where('id', request.params.id).select()
+    .then(projects => {
+      if (projects.length) {
+        response.status(200).json(projects);
+      } else {
+        response.status(404).json({
+          error: `Could not find project with id ${request.params.id}`
+        });
+      }
+    })
+    .catch(error => {
+      response.status(500).json({ error });
+    });
+});
+
+app.get('/api/v1/palettes/:id', async (request, response) => {
+  const id = parseInt(request.params.id)
+  try {
+    const palettes = await database('palettes').select()
+    const projectPalettes = palettes.filter(palette => palette.project_id === id)
+    response.status(200).json(projectPalettes)
+  } catch (error) {
+    response.status(500).json(error)
   }
 });
 
 app.post('/api/v1/projects/new', (request, response) => {
   console.log(request.body)
   const project = request.body;
-  const id = Date.now();
-  if (!project.project_name) {
-    response.status(422).send({
-      error: 'no project name provided'
-    });
-  } else {
-    app.locals.projects.push({id, project_name: project.project_name});
-    response.status(201).json({id, project_name: project.project_name});
+  for (let requiredParameter of ['project_name']) {
+    if (!project[requiredParameter]) {
+      return response
+        .status(422)
+        .send({ error: `Expected format: { project_name: <String> }. You're missing a "${requiredParameter}" property.` });
+    }
   }
+
+  database('projects').insert(project, 'id')
+    .then(project => {
+      response.status(201).json({ id: project[0] })
+    })
+    .catch(error => {
+      response.status(500).json({ error });
+    });
 });
 
 app.listen(app.get('port'), () => {
