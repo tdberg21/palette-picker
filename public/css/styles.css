@@ -90,6 +90,7 @@ label {
 .saved-projects-section {
   display: flex;
   flex-wrap: wrap;
+  height: 100vh;
 }
 
 .project-article {
