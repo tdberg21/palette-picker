@@ -90,6 +90,10 @@ const handleSaveProject = () => {
   appendNewProject(newProjectName);
 }
 
+const clearProjectInputField = () => {
+  $('#create-project-input').val('');
+}
+
 const addProjectToDB = async (projectName) => {
   const url = 'http://localhost:3000/api/v1/projects/new';
   const response = await fetch(url, {

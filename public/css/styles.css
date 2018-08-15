@@ -94,7 +94,8 @@ label {
 }
 
 .project-article {
-  width: 15%;
+  width: 20%;
+  margin: 0 1rem;
 }
 
 .project-name-header {
