@@ -36,27 +36,23 @@ const handleSavePalette = () => {
 }
 
 const appendMiniPalette = (projectName, paletteName) => {
-  $('.project-palette-append').append(`
-  <div class="saved-palette-container ${paletteName}">
+  $(`.${projectName}`).append(`
+  <div class="saved-palette-container">
     <h6 class="palette-name-header">${paletteName}</h6>
     <span class="palette-mini-color-container">
-      <div class="mini-color-boxes mini-color-box1"></div>
-      <div class="mini-color-boxes mini-color-box2"></div>
-      <div class="mini-color-boxes mini-color-box3"></div>
-      <div class="mini-color-boxes mini-color-box4"></div>
-      <div class="mini-color-boxes mini-color-box5"></div>
+      <div class="mini-color-boxes mini-color-box1" style="background-color: ${colors[0]}"></div>
+      <div class="mini-color-boxes mini-color-box2" style="background-color: ${colors[1]}"></div>
+      <div class="mini-color-boxes mini-color-box3" style="background-color: ${colors[2]}"></div>
+      <div class="mini-color-boxes mini-color-box4" style="background-color: ${colors[3]}"></div>
+      <div class="mini-color-boxes mini-color-box5" style="background-color: ${colors[4]}"></div>
     </span>
   </div>
   `)
-  colors.forEach((color, index) => {
-    $(`.mini-color-box${index + 1}`).css('background-color', color);
-  })
 }
 
 const handleSaveProject = () => {
   let newProjectName = $('#create-project-input').val();
   // make fetch call to add to database
-  console.log(newProjectName)
   addProjectToDropDown(newProjectName);
   appendNewProject(newProjectName);
 }
@@ -71,21 +67,10 @@ const appendNewProject = (projectName) => {
     <article class="project-article ${projectName}">
       <h5 class="project-name-header">${projectName}</h5>
       <div class="project-palette-append">
-        <div class="saved-palette-container">
-          <h6 class="palette-name-header">Palette 1</h6>
-          <span class="palette-mini-color-container">
-            <div class="mini-color-boxes mini-color-box1"></div>
-            <div class="mini-color-boxes mini-color-box2"></div>
-            <div class="mini-color-boxes mini-color-box3"></div>
-            <div class="mini-color-boxes mini-color-box4"></div>
-            <div class="mini-color-boxes mini-color-box5"></div>
-          </span>
-        </div>
       </div>
     </article>
     `)
 }
-
 
 randomPaletteGenerator();
 $('.lock-button1').click(() => lockColor(1));

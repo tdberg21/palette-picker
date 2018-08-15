@@ -22,6 +22,7 @@ h1 {
   font-family: 'Helvetica Neue', sans-serif;
   letter-spacing: -1px; 
   line-height: 1;
+  padding-left: 10px;
 }
 
 button:hover {
