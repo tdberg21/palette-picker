@@ -8,45 +8,46 @@
 
   <body>
     <header>
-      <h1>Palette Picker</h1>
-    </header>
-    <section class="color-container">
-      <div class="color-boxes color-box1">
-        <button class="lock-buttons lock-button1">🔓</button>
-        <p class="color-code1"></p>
-      </div>
-      <div class="color-boxes color-box2">
-        <button class="lock-buttons lock-button2">🔓</button>
-        <p class="color-code2"></p>
-      </div>
-      <div class="color-boxes color-box3">
-        <button class="lock-buttons lock-button3">🔓</button>
-        <p class="color-code3"></p>
-      </div>
-      <div class="color-boxes color-box4">
-        <button class="lock-buttons lock-button4">🔓</button>
-        <p class="color-code4"></p>
-      </div>
-      <div class="color-boxes color-box5">
-        <button class="lock-buttons lock-button5">🔓</button>
-        <p class="color-code5"></p>
-      </div>
-    </section>
-    <section class="controls-container">
-      <button class="new-palette-button">Generate New Palette!</button>
+      <h1>palette picker.</h1>
       <div class="lower-controls-container">
         <select name="project-name-list" id="project-name-dropdown">
-          <option value="project1">Project 1</option>
-          <option value="project2">Project 2</option>
         </select>
         <input type="text" class="palette-name-input" placeholder="Palette Name">
         <button class="save-palette-button">Save Palette</button>
       </div>
+    </header>
+    <section class="color-container">
+      <div class="color-boxes color-box1">
+        <button class="lock-buttons lock-button1">Lock</button>
+        <p class="color-codes color-code1"></p>
+      </div>
+      <div class="color-boxes color-box2">
+        <button class="lock-buttons lock-button2">Lock</button>
+        <p class="color-codes color-code2"></p>
+      </div>
+      <div class="color-boxes color-box3">
+        <button class="lock-buttons lock-button3">Lock</button>
+        <p class="color-codes color-code3"></p>
+      </div>
+      <div class="color-boxes color-box4">
+        <button class="lock-buttons lock-button4">Lock</button>
+        <p class="color-codes color-code4"></p>
+      </div>
+      <div class="color-boxes color-box5">
+        <button class="lock-buttons lock-button5">Lock</button>
+        <p class="color-codes color-code5"></p>
+      </div>
     </section>
-    <section class="project-container">
+    <section class="controls-container">
+      <button class="new-palette-button">Generate New Palette!</button>
+    </section>
+    <hr>
+    <section class="projects-container">
       <label for="create-project-input">Create New Project:</label>
-      <input type="text" name="new-project-name" id="create-project-input" placeholder="name">
+      <input type="text" name="new-project-name" id="create-project-input" placeholder="Project Name">
       <button class="save-project-button">Save Project</button>
+    </section>
+    <section class="saved-projects-section">
     </section>
   
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
