@@ -83,11 +83,17 @@ const appendMiniPalette = (projectName, paletteName) => {
   `);
 };
 
-const handleSaveProject = () => {
+const handleSaveProject = async () => {
   let newProjectName = $('#create-project-input').val();
-  addProjectToDB(newProjectName);
-  addProjectToDropDown(newProjectName);
-  appendNewProject(newProjectName);
+  let duplicate = await findProject(newProjectName);
+  if (duplicate) {
+    console.log(duplicate);
+    return;
+  } else {
+    addProjectToDB(newProjectName);
+    addProjectToDropDown(newProjectName);
+    appendNewProject(newProjectName);
+  }
 }
 
 const clearProjectInputField = () => {
