@@ -43,7 +43,7 @@ app.get('/api/v1/projects/:id', (request, response) => {
   database('projects').where('id', request.params.id).select()
     .then(projects => {
       if (projects.length) {
-        response.status(200).json(papers);
+        response.status(200).json(projects);
       } else {
         response.status(404).json({
           error: `Could not find paper with id ${request.params.id}`
