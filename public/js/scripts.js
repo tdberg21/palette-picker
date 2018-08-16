@@ -192,6 +192,10 @@ const findPalette = async (paletteName) => {
   return foundPalette
 }
 
+const displayInfo = (event) => {
+  console.log(event.target.closest('.saved-palette-container'))
+}
+
 handlePageLoad();
 randomPaletteGenerator();
 $('.lock-button1').click(() => lockColor(1));
@@ -203,3 +207,4 @@ $('.new-palette-button').click(randomPaletteGenerator);
 $('.save-palette-button').click(handleSavePalette);
 $('.save-project-button').click(handleSaveProject);
 $('.saved-projects-section').on('click', 'article .delete-palette-button', handleDelete);
+$('.saved-projects-section').on('click', 'article .saved-palette-container', displayInfo);
