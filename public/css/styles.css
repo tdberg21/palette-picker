@@ -90,20 +90,25 @@ label {
 .saved-projects-section {
   display: flex;
   flex-wrap: wrap;
+  height: fit-content;
 }
 
 .project-article {
-  width: 15%;
+  width: 20%;
+  margin: 0 1rem;
+  height: fit-content;
 }
 
 .project-name-header {
   margin: 0.5rem auto;
+  text-decoration: underline;
 }
 
 .palette-mini-color-container {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-evenly;
+  align-items: center;
 }
 
 .palette-name-header {
@@ -115,3 +120,8 @@ label {
   width: 10px;
   height: 10px;
 }
+
+.delete-palette-button {
+  border: none;
+}
+

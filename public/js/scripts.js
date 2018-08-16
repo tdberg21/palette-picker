@@ -19,19 +19,53 @@ const randomPaletteGenerator = () => {
 
 const lockColor = (boxNumber) => {
   $(`.lock-button${boxNumber}`).toggleClass('locked');
-  if ($(`.lock-button${boxNumber}`).text() === 'Lock') {
-    $(`.lock-button${boxNumber}`).text('Unlock');
+  if ($(`.lock-button${boxNumber}`).text() === 'lock') {
+    $(`.lock-button${boxNumber}`).text('unlock');
   } else {
-    $(`.lock-button${boxNumber}`).text('Lock');
+    $(`.lock-button${boxNumber}`).text('lock');
   }
 };
 
-const handleSavePalette = () => {
+const handleSavePalette = async () => {
   let paletteName = $('.palette-name-input').val();
   let projectName = $('#project-name-dropdown').val();
-  // make api call to save palette to database
+  let project = await findProject(projectName);
+  addPaletteToDB(paletteName, project);
   appendMiniPalette(projectName, paletteName);
+  clearPaletteInputField();
 };
+
+const clearPaletteInputField = () => {
+  $('.palette-name-input').val('');
+}
+
+const findProject = async (projectName) => {
+  let results = await fetchSavedProjects();
+  const foundProject = results.find(project => project.project_name === projectName)
+  return foundProject
+}
+
+const addPaletteToDB = async (paletteName, project) => {
+  const url = 'http://localhost:3000/api/v1/palettes/new';
+  const response = await fetch(url, {
+    method: 'POST',
+    body: JSON.stringify({
+      palette_name: paletteName,
+      color1: colors[0],
+      color2: colors[1],
+      color3: colors[2],
+      color4: colors[3],
+      color5: colors[4],
+      project_id: project.id
+
+    }),
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  });
+  const results = await response.json();
+  return await results; 
+}
 
 const appendMiniPalette = (projectName, paletteName) => {
   $(`.${projectName}`).append(`
@@ -43,16 +77,26 @@ const appendMiniPalette = (projectName, paletteName) => {
       <div class="mini-color-boxes mini-color-box3" style="background-color: ${colors[2]}"></div>
       <div class="mini-color-boxes mini-color-box4" style="background-color: ${colors[3]}"></div>
       <div class="mini-color-boxes mini-color-box5" style="background-color: ${colors[4]}"></div>
+      <button class="delete-palette-button" id=${paletteName}>🚫</button>
     </span>
   </div>
   `);
 };
 
-const handleSaveProject = () => {
+const handleSaveProject = async () => {
   let newProjectName = $('#create-project-input').val();
-  addProjectToDB(newProjectName);
-  addProjectToDropDown(newProjectName);
-  appendNewProject(newProjectName);
+  let duplicate = await findProject(newProjectName);
+  if (duplicate) {
+    return;
+  } else {
+    addProjectToDB(newProjectName);
+    addProjectToDropDown(newProjectName);
+    appendNewProject(newProjectName);
+  }
+}
+
+const clearProjectInputField = () => {
+  $('#create-project-input').val('');
 }
 
 const addProjectToDB = async (projectName) => {
@@ -89,12 +133,16 @@ const fetchSavedProjects = async () => {
   const url = 'http://localhost:3000/api/v1/projects/';
   const response = await fetch(url);
   const results = await response.json();
+  return results;
+}
+
+const handlePageLoad = async () => {
+  let results = await fetchSavedProjects();
   results.forEach(project => {
     addProjectToDropDown(project.project_name)
     appendNewProject(project.project_name)
     fetchProjectPalettes(project.id, project.project_name)
   })
-  return await results;
 }
 
 const fetchProjectPalettes = async (projectID, projectName) => {
@@ -120,11 +168,31 @@ const fetchSavedPalettes = async () => {
   const url = 'http://localhost:3000/api/v1/palettes/';
   const response = await fetch(url);
   const results = await response.json();
-  console.log(results);
   return await results;
 }
 
-fetchSavedProjects();
+const handleDelete = async (event) => {
+  let paletteName = $(event.target).attr('id');
+  let paletteInfo = await findPalette(paletteName);
+  deletePaletteFromDatabase(paletteInfo.id);
+  event.target.closest('div').remove();
+}
+
+const deletePaletteFromDatabase = async (paletteId) => {
+  const url = `http://localhost:3000/api/v1/palettes/delete/${paletteId}`;
+  const response = await fetch(url, {
+    method: 'DELETE'
+  });
+  const results = await response.json();
+}
+
+const findPalette = async (paletteName) => {
+  let results = await fetchSavedPalettes();
+  const foundPalette = results.find(palette => palette.palette_name === paletteName)
+  return foundPalette
+}
+
+handlePageLoad();
 randomPaletteGenerator();
 $('.lock-button1').click(() => lockColor(1));
 $('.lock-button2').click(() => lockColor(2));
@@ -134,3 +202,4 @@ $('.lock-button5').click(() => lockColor(5));
 $('.new-palette-button').click(randomPaletteGenerator);
 $('.save-palette-button').click(handleSavePalette);
 $('.save-project-button').click(handleSaveProject);
+$('.saved-projects-section').on('click', 'article .delete-palette-button', handleDelete);
