@@ -121,6 +121,10 @@ label {
   height: 10px;
 }
 
+.mini-color-boxes {
+  cursor: help;
+}
+
 .delete-palette-button {
   border: none;
 }
