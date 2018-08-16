@@ -21,7 +21,7 @@ describe('Client Routes', () => {
 describe('API Routes', () => {
 
 describe('GET /api/v1/projects', () => {
-  it('should return the homepage', done => {
+  it('should return the all the projects', done => {
     chai.request(app)
       .get('/api/v1/projects')
       .end((error, response) => {
@@ -37,4 +37,17 @@ describe('GET /api/v1/projects', () => {
       })
   });
 });
+
+describe('GET /api/v1/palettes', () => {
+  it('should return the all the palettes', done => {
+    chai.request(app)
+      .get('/api/v1/palettes')
+      .end((error, response) => {
+        response.should.have.status(200);
+        response.should.be.json;
+        response.body.should.be.a('array');
+        done();
+      })
+  });
+})
 });
