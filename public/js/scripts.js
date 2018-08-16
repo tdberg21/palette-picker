@@ -72,11 +72,11 @@ const appendMiniPalette = (projectName, paletteName) => {
   <div class="saved-palette-container">
     <h6 class="palette-name-header">${paletteName}</h6>
     <span class="palette-mini-color-container">
-      <div class="mini-color-boxes mini-color-box1" style="background-color: ${colors[0]}"></div>
-      <div class="mini-color-boxes mini-color-box2" style="background-color: ${colors[1]}"></div>
-      <div class="mini-color-boxes mini-color-box3" style="background-color: ${colors[2]}"></div>
-      <div class="mini-color-boxes mini-color-box4" style="background-color: ${colors[3]}"></div>
-      <div class="mini-color-boxes mini-color-box5" style="background-color: ${colors[4]}"></div>
+      <div class="mini-color-boxes mini-color-box1" style="background-color: ${colors[0]}" title="${colors[0]}"></div>
+      <div class="mini-color-boxes mini-color-box2" style="background-color: ${colors[1]}" title="${colors[1]}"></div>
+      <div class="mini-color-boxes mini-color-box3" style="background-color: ${colors[2]}" title="${colors[2]}"></div>
+      <div class="mini-color-boxes mini-color-box4" style="background-color: ${colors[3]}" title="${colors[3]}"></div>
+      <div class="mini-color-boxes mini-color-box5" style="background-color: ${colors[4]}" title="${colors[4]}"></div>
       <button class="delete-palette-button" id=${paletteName}>🚫</button>
     </span>
   </div>
@@ -192,6 +192,10 @@ const findPalette = async (paletteName) => {
   return foundPalette
 }
 
+const displayInfo = (event) => {
+  console.log(event.target.closest('.saved-palette-container'))
+}
+
 handlePageLoad();
 randomPaletteGenerator();
 $('.lock-button1').click(() => lockColor(1));
@@ -203,3 +207,4 @@ $('.new-palette-button').click(randomPaletteGenerator);
 $('.save-palette-button').click(handleSavePalette);
 $('.save-project-button').click(handleSaveProject);
 $('.saved-projects-section').on('click', 'article .delete-palette-button', handleDelete);
+$('.saved-projects-section').on('click', 'article .saved-palette-container', displayInfo);
