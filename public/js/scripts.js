@@ -64,7 +64,6 @@ const addPaletteToDB = async (paletteName, project) => {
     }
   });
   const results = await response.json();
-  console.log(results);
   return await results; 
 }
 
@@ -175,9 +174,16 @@ const fetchSavedPalettes = async () => {
 const handleDelete = async (event) => {
   let paletteName = $(event.target).attr('id');
   let paletteInfo = await findPalette(paletteName);
-  console.log(paletteInfo);
-  // deleteFromDB()
+  deletePaletteFromDatabase(paletteInfo.id);
   event.target.closest('div').remove();
+}
+
+const deletePaletteFromDatabase = async (paletteId) => {
+  const url = `http://localhost:3000/api/v1/palettes/delete/${paletteId}`;
+  const response = await fetch(url, {
+    method: 'DELETE'
+  });
+  const results = await response.json();
 }
 
 const findPalette = async (paletteName) => {

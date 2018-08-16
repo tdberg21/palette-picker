@@ -67,7 +67,6 @@ app.get('/api/v1/palettes/:id', async (request, response) => {
 });
 
 app.post('/api/v1/projects/new', (request, response) => {
-  console.log(request.body)
   const project = request.body;
   for (let requiredParameter of ['project_name']) {
     if (!project[requiredParameter]) {
@@ -87,7 +86,6 @@ app.post('/api/v1/projects/new', (request, response) => {
 });
 
 app.post('/api/v1/palettes/new', (request, response) => {
-  console.log(request.body)
   const palette = request.body;
   for (let requiredParameter of ['palette_name', 'color1', 'color2', 'color3', 'color4', 'color5', 'project_id']) {
     if (!palette[requiredParameter]) {
@@ -105,6 +103,17 @@ app.post('/api/v1/palettes/new', (request, response) => {
       response.status(500).json({ error });
     });
 });
+
+app.delete('/api/v1/palettes/delete/:id', (request, response) => {
+  const id = request.params.id;
+  database('palettes').where({ id }).del()
+    .then(palette => {
+      response.status(200).json({status: `Succesfully deleted ${palette}`})
+    })
+    .catch(error => {
+      response.status(500).json({error})
+    })
+})
 
 app.listen(app.get('port'), () => {
   console.log(`${app.locals.title} is running on ${app.get('port')}.`);
