@@ -46,7 +46,7 @@ const findProject = async (projectName) => {
 }
 
 const addPaletteToDB = async (paletteName, project) => {
-  const url = 'http://localhost:3000/api/v1/palettes/new';
+  const url = '/api/v1/palettes/new';
   const response = await fetch(url, {
     method: 'POST',
     body: JSON.stringify({
