@@ -77,7 +77,7 @@ const appendMiniPalette = (projectName, paletteName) => {
       <div class="mini-color-boxes mini-color-box3" style="background-color: ${colors[2]}" title="${colors[2]}"></div>
       <div class="mini-color-boxes mini-color-box4" style="background-color: ${colors[3]}" title="${colors[3]}"></div>
       <div class="mini-color-boxes mini-color-box5" style="background-color: ${colors[4]}" title="${colors[4]}"></div>
-      <button class="delete-palette-button" id=${paletteName}>🚫</button>
+      <button class="delete-palette-button" id=${paletteName}>delete.</button>
     </span>
   </div>
   `);
