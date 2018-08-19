@@ -84,9 +84,11 @@ const appendMiniPalette = (projectName, paletteName) => {
 };
 
 const handleSaveProject = async () => {
+  $('.duplicate-project').text('');
   let newProjectName = $('#create-project-input').val();
   let duplicate = await findProject(newProjectName);
   if (duplicate) {
+    $('.duplicate-project').text('Please choose a unique project name.')
     return;
   } else {
     addProjectToDB(newProjectName);
@@ -192,12 +194,20 @@ const findPalette = async (paletteName) => {
   return foundPalette
 }
 
-const displayInfo = (event) => {
-  console.log(event.target.closest('.saved-palette-container'))
+const displayInfo = async (event) => {
+  const paletteName = $(event.target.closest('.saved-palette-container')).children('h6').text();
+  const palette = await findPalette(paletteName);
+  updateColorsArray(palette);
+  colors.forEach((color, index) => {
+    $(`.color-box${index + 1}`).css('background-color', color);
+    $(`.color-code${index + 1}`).text(color);
+    $(`.lock-button${index + 1}`).css('background-color', color);
+    $(`.color-code${index + 1}`).css('background-color', color);
+  })
 }
 
-handlePageLoad();
 randomPaletteGenerator();
+handlePageLoad();
 $('.lock-button1').click(() => lockColor(1));
 $('.lock-button2').click(() => lockColor(2));
 $('.lock-button3').click(() => lockColor(3));
