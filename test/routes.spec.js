@@ -17,6 +17,16 @@ describe('Client Routes', () => {
         done();
       });
   });
+
+  it('should not return the homepage if the wrong url is entered', done => {
+    chai.request(app)
+      .get('/chickens')
+      .end((error, response) => {
+        response.should.have.status(404);
+        response.should.be.html;
+        done();
+      });
+  });
 });
 
 describe('API Routes', () => {
@@ -204,7 +214,6 @@ describe('POST /api/v1/projects/new', () => {
       chai.request(app)
         .delete('/api/v1/palettes/delete/1')
         .end((error, response) => {
-          console.log(response.body)
           response.should.have.status(200);
           response.should.be.json;
           response.body.should.be.a('object');
