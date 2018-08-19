@@ -1,7 +1,9 @@
+process.env.NODE_ENV = 'test';
 const chai = require('chai');
 const should = chai.should();
 const chaiHttp = require('chai-http');
 const app = require('../server');
+
 
 chai.use(chaiHttp);
 
@@ -19,6 +21,19 @@ describe('Client Routes', () => {
 
 
 describe('API Routes', () => {
+
+  beforeEach(function (done) {
+    knex.migrate.rollback()
+      .then(function () {
+        knex.migrate.latest()
+          .then(function () {
+            return knex.seed.run()
+              .then(function () {
+                done();
+              });
+          });
+      });
+  });
 
 describe('GET /api/v1/projects', () => {
   it('should return the all the projects', done => {
@@ -49,5 +64,7 @@ describe('GET /api/v1/palettes', () => {
         done();
       })
   });
-})
+});
+
+
 });
