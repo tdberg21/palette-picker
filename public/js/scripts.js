@@ -46,7 +46,7 @@ const findProject = async (projectName) => {
 }
 
 const addPaletteToDB = async (paletteName, project) => {
-  const url = 'http://localhost:3000/api/v1/palettes/new';
+  const url = '/api/v1/palettes/new';
   const response = await fetch(url, {
     method: 'POST',
     body: JSON.stringify({
@@ -100,7 +100,7 @@ const clearProjectInputField = () => {
 }
 
 const addProjectToDB = async (projectName) => {
-  const url = 'http://localhost:3000/api/v1/projects/new';
+  const url = '/api/v1/projects/new';
   const response = await fetch(url, {
     method: 'POST',
     body: JSON.stringify({
@@ -130,7 +130,7 @@ const appendNewProject = (projectName) => {
 };
 
 const fetchSavedProjects = async () => {
-  const url = 'http://localhost:3000/api/v1/projects/';
+  const url = '/api/v1/projects/';
   const response = await fetch(url);
   const results = await response.json();
   return results;
@@ -146,7 +146,7 @@ const handlePageLoad = async () => {
 }
 
 const fetchProjectPalettes = async (projectID, projectName) => {
-  const url = `http://localhost:3000/api/v1/palettes/${projectID}`;
+  const url = `/api/v1/palettes/${projectID}`;
   const response = await fetch(url);
   const results = await response.json();
   appendProjectPalettes(results, projectName)
@@ -165,7 +165,7 @@ const updateColorsArray = (palette) => {
 }
 
 const fetchSavedPalettes = async () => {
-  const url = 'http://localhost:3000/api/v1/palettes/';
+  const url = '/api/v1/palettes/';
   const response = await fetch(url);
   const results = await response.json();
   return await results;
@@ -179,7 +179,7 @@ const handleDelete = async (event) => {
 }
 
 const deletePaletteFromDatabase = async (paletteId) => {
-  const url = `http://localhost:3000/api/v1/palettes/delete/${paletteId}`;
+  const url = `/api/v1/palettes/delete/${paletteId}`;
   const response = await fetch(url, {
     method: 'DELETE'
   });
