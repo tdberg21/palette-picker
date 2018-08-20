@@ -51,6 +51,7 @@ app.get('/api/v1/palettes', (request, response) => {
     });
 });
 
+// Route handler that tells the server what to do for get requests to /api/v1/projects/:id
 app.get('/api/v1/projects/:id', (request, response) => {
   database('projects').where('id', request.params.id).select()
     .then(projects => {
