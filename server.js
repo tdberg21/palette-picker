@@ -1,19 +1,23 @@
+// define a variable express and require the Express module installed using NPM
 const express = require('express');
+// define a variable app that invokes express and sets up our express application
 const app = express();
+// define a variable bodyParser that requires the body-parser package
 const bodyParser = require('body-parser');
 const environment = process.env.NODE_ENV || 'development';
 const configuration = require('./knexfile')[environment];
 const database = require('knex')(configuration);
 
+// use body parser for the app and and we expect the body to be json so we need to use .json()
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+// Configures which path the app should use for getting the static assets
 app.use(express.static('public'));
 
+// 
 app.set('port', process.env.PORT || 3000);
+// give the locals object a key of title with a value of Palette Picker
 app.locals.title = 'Palette Picker';
 
-app.get('/', (request, response) => {
-});
 
 app.get('/api/v1/projects', (request, response) => {
   database('projects').select()
@@ -111,8 +115,11 @@ app.delete('/api/v1/palettes/delete/:id', (request, response) => {
     })
 })
 
+// tells the app to listen for connections on 'port'
 app.listen(app.get('port'), () => {
+  // if a connection is made, console.log the title and what port it is running on
   console.log(`${app.locals.title} is running on ${app.get('port')}.`);
 });
 
+// export the app so that we can test it
 module.exports = app;
