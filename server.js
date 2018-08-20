@@ -16,28 +16,37 @@ app.use(bodyParser.json());
 // Configures which path the app should use for getting the static assets
 app.use(express.static('public'));
 
-// 
+// Set the port as either the process environment variable or 3000
 app.set('port', process.env.PORT || 3000);
 // give the locals object a key of title with a value of Palette Picker
 app.locals.title = 'Palette Picker';
 
-
+// Route handler that tells the server what to do for get requests to /api/v1/projects
 app.get('/api/v1/projects', (request, response) => {
+  // find and select the database called 'projects'
   database('projects').select()
+  // Wait for the promise to resolve and then run the callback function
     .then((projects) => {
+      // if database is found, send back a status code of 200 and the json version of all the projects
       response.status(200).json(projects);
     })
     .catch((error) => {
+      // if the database is not found and there is an error, send back a status code of 500 and the json version of the error
       response.status(500).json({ error });
     });
 });
 
+// Route handler that tells the server what to do for get requests to /api/v1/palettes
 app.get('/api/v1/palettes', (request, response) => {
+  // find and select the database called 'palettes'
   database('palettes').select()
+  // Wait for the promise to resolve and then run the callback function
     .then((palettes) => {
+      // if database is found, send back a status code of 200 and the json version of all the palettes
       response.status(200).json(palettes);
     })
     .catch((error) => {
+      // if the database is not found and there is an error, send back a status code of 500 and the json version of the error
       response.status(500).json({ error });
     });
 });
