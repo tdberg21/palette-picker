@@ -4,8 +4,11 @@ const express = require('express');
 const app = express();
 // define a variable bodyParser that requires the body-parser package
 const bodyParser = require('body-parser');
+// Define a variable environment and assign it the value of whatever NODE_ENV has been defined as or if that is not defined than give it the default value of 'development'
 const environment = process.env.NODE_ENV || 'development';
+// define the configuration variable and dynamically access our configuration object using the value of the environment variable as the key
 const configuration = require('./knexfile')[environment];
+
 const database = require('knex')(configuration);
 
 // use body parser for the app and and we expect the body to be json so we need to use .json()
