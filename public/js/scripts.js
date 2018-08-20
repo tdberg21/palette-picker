@@ -23,7 +23,7 @@ const lockColor = (boxNumber) => {
     $(`.lock-button${boxNumber}`).text('unlock');
   } else {
     $(`.lock-button${boxNumber}`).text('lock');
-  }
+  };
 };
 
 const handleSavePalette = async () => {
@@ -37,13 +37,13 @@ const handleSavePalette = async () => {
 
 const clearPaletteInputField = () => {
   $('.palette-name-input').val('');
-}
+};
 
 const findProject = async (projectName) => {
   let results = await fetchSavedProjects();
-  const foundProject = results.find(project => project.project_name === projectName)
-  return foundProject
-}
+  const foundProject = results.find(project => project.project_name === projectName);
+  return foundProject;
+};
 
 const addPaletteToDB = async (paletteName, project) => {
   const url = '/api/v1/palettes/new';
@@ -65,7 +65,7 @@ const addPaletteToDB = async (paletteName, project) => {
   });
   const results = await response.json();
   return await results; 
-}
+};
 
 const appendMiniPalette = (projectName, paletteName) => {
   $(`.${projectName}`).append(`
@@ -94,12 +94,12 @@ const handleSaveProject = async () => {
     addProjectToDB(newProjectName);
     addProjectToDropDown(newProjectName);
     appendNewProject(newProjectName);
-  }
-}
+  };
+};
 
 const clearProjectInputField = () => {
   $('#create-project-input').val('');
-}
+};
 
 const addProjectToDB = async (projectName) => {
   const url = '/api/v1/projects/new';
@@ -114,7 +114,7 @@ const addProjectToDB = async (projectName) => {
   });
   const results = await response.json();
   return await results; 
-}
+};
 
 const addProjectToDropDown = (name) => {
   let dropdown = $('#project-name-dropdown');
@@ -136,49 +136,49 @@ const fetchSavedProjects = async () => {
   const response = await fetch(url);
   const results = await response.json();
   return results;
-}
+};
 
 const handlePageLoad = async () => {
   let results = await fetchSavedProjects();
   results.forEach(project => {
-    addProjectToDropDown(project.project_name)
-    appendNewProject(project.project_name)
-    fetchProjectPalettes(project.id, project.project_name)
-  })
-}
+    addProjectToDropDown(project.project_name);
+    appendNewProject(project.project_name);
+    fetchProjectPalettes(project.id, project.project_name);
+  });
+};
 
 const fetchProjectPalettes = async (projectID, projectName) => {
   const url = `/api/v1/palettes/${projectID}`;
   const response = await fetch(url);
   const results = await response.json();
-  appendProjectPalettes(results, projectName)
+  appendProjectPalettes(results, projectName);
   return await results;
-}
+};
 
 const appendProjectPalettes = (palettes, projectName) => {
   palettes.forEach(palette => {
-    updateColorsArray(palette)
-    appendMiniPalette(projectName, palette.palette_name)
-  })
-}
+    updateColorsArray(palette);
+    appendMiniPalette(projectName, palette.palette_name);
+  });
+};
 
 const updateColorsArray = (palette) => {
   colors = [palette.color1, palette.color2, palette.color3, palette.color4, palette.color5];
-}
+};
 
 const fetchSavedPalettes = async () => {
   const url = '/api/v1/palettes/';
   const response = await fetch(url);
   const results = await response.json();
   return await results;
-}
+};
 
 const handleDelete = async (event) => {
   let paletteName = $(event.target).attr('id');
   let paletteInfo = await findPalette(paletteName);
   deletePaletteFromDatabase(paletteInfo.id);
   event.target.closest('div').remove();
-}
+};
 
 const deletePaletteFromDatabase = async (paletteId) => {
   const url = `/api/v1/palettes/delete/${paletteId}`;
@@ -186,13 +186,13 @@ const deletePaletteFromDatabase = async (paletteId) => {
     method: 'DELETE'
   });
   const results = await response.json();
-}
+};
 
 const findPalette = async (paletteName) => {
   let results = await fetchSavedPalettes();
-  const foundPalette = results.find(palette => palette.palette_name === paletteName)
-  return foundPalette
-}
+  const foundPalette = results.find(palette => palette.palette_name === paletteName);
+  return foundPalette;
+};
 
 const displayInfo = async (event) => {
   const paletteName = $(event.target.closest('.saved-palette-container')).children('h6').text();
@@ -203,8 +203,8 @@ const displayInfo = async (event) => {
     $(`.color-code${index + 1}`).text(color);
     $(`.lock-button${index + 1}`).css('background-color', color);
     $(`.color-code${index + 1}`).css('background-color', color);
-  })
-}
+  });
+};
 
 randomPaletteGenerator();
 handlePageLoad();
